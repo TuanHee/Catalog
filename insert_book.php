@@ -9,22 +9,45 @@
     <h1>Book Entry Results</h1>
     <?php
     // TODO 1: Create short variable names.
-
-
+    $isbn   = '';
+    $author = '';
+    $title  = '';
+    $price  = '';
     // TODO 2: Check and filter data coming from the user.
+    if (isset($_POST['isbn']) && !empty($_POST['isbn']) &&
+    isset($_POST['author']) && !empty($_POST['author']) &&
+    isset($_POST['title']) && !empty($_POST['title']) &&
+    isset($_POST['price']) && !empty($_POST['price'])
+    ) {
+        $isbn   = $_POST['isbn'];
+        $author = $_POST['author'];
+        $title  = $_POST['title'];
+        $price  = $_POST['price'];
 
+        // TODO 3: Setup a connection to the appropriate database.
+        $conn = new mysqli('localhost', 'root', '', 'publications');
+        if($conn->connect_error) die("FATAL ERROR");
+        
+        // TODO 4: Query the database.
+        $query = "INSERT INTO catalogs VALUES ('$isbn', '$author', '$title', '$price')";
+        $result = $conn->query($query);
 
-    // TODO 3: Setup a connection to the appropriate database.
+        // TODO 5: Display the feedback back to user.
+        if(!$result) die("Database Access failed");
 
-
-    // TODO 4: Query the database.
-
-
-    // TODO 5: Display the feedback back to user.
-
-
-    // TODO 6: Disconnecting from the database.
-
+        echo <<<_END
+        New Book Created
+        <hr>
+        <pre>
+        ISBN    $isbn
+        Author  $author
+        Title   $title
+        Price   RM $price
+        </pre>
+        _END;
+        // TODO 6: Disconnecting from the database.
+        $conn->close();
+    }
 
     ?>
 </body>

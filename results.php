@@ -8,6 +8,7 @@
 <body>
     <h1>Book Search Results</h1>
     <?php
+    require_once 'config.php';
     // TODO 1: Create short variable names.
 
 
